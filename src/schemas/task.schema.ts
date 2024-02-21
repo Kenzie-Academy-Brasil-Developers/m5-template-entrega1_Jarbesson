@@ -10,12 +10,10 @@ export const taskSchema = z.object({
     categoryId: z.number().positive().nullish()
 });
 
-
-
 export const taskCategorySchema = taskSchema.extend({
     category: categoryShema.nullish().optional()
 })
 
 export const taskReturnShema = taskSchema.omit({categoryId: true})
 export const taskCreateSchema = taskSchema.omit({id: true, finished:true});
-export const taskUpdateShema = taskCreateSchema.partial();
+export const taskUpdateShema = taskSchema.omit({id: true});
