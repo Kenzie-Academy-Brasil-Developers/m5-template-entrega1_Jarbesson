@@ -4,7 +4,9 @@ import express, { json } from "express";
 import helmet from "helmet";
 import { taskRouter } from "./routes/task.routes";
 import { categoryRouter } from "./routes/category.routes";
-import { HandleErrors } from "./errors/handleErrors.error";
+import { HandleErrors } from "./middlewares/handleErrors.error";
+import { userRouter } from "./routes/user.routes";
+import { sessionRouter } from "./routes/session.routes";
 
 export const app = express();
 
@@ -15,5 +17,9 @@ app.use(json());
 app.use("/tasks", taskRouter);
 
 app.use("/categories", categoryRouter);
+
+app.use("/users", userRouter);
+
+app.use("/users/login", sessionRouter);
 
 app.use(HandleErrors.execute);

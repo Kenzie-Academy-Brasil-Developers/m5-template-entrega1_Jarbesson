@@ -2,27 +2,52 @@
 import { injectable } from "tsyringe";
 import { prisma } from "../database/prisma";
 import { TTask, TTaskCategorySchema, TTaskCreate, TTaskUpadate} from "../interfaces/task.interface";
-import { taskReturnShema } from "../schemas/task.schema";
+import { AppError } from "../errors/AppError";
+
 
 @injectable()
-
 export class TaskServices {
-    create = async (payload: TTaskCreate): Promise<TTask> => {
-       const newTask = await prisma.task.create({ data:payload });
+    create = async (payload: TTaskCreate, userId: number): Promise<TTask> => {
+       const newTask = await prisma.task.create({ data:{...payload, userId }});
 
        return newTask as TTask;
    }
 
-     findMany = async (categoryName?: string): Promise<TTaskCategorySchema[] | null> => {
+     findMany = async (categoryName?: string, userId?: number): Promise<TTaskCategorySchema[] | null> => {
+        if (!categoryName) {
+            const allTasksUsers = await prisma.task.findMany({ 
+                where: {
+                    userId: userId
+                    } ,
+                include:{
+                    category: true
+                }
+    
+            });
+            return allTasksUsers
+        }
+
+
+        const categoryFound = await prisma.category.findFirst({
+            where:
+             {name: categoryName}})
+
+        if (!categoryFound) {
+            throw new AppError("category not found", 409)
+        }
+
+        if (categoryFound.userId !== userId) {
+            throw new AppError("This users is not the category owner", 401)
+        }
+
         const allTasks = await prisma.task.findMany({ 
             where: {
-                ...(categoryName && {
-                    category: {name: categoryName}
-                })
+              userId, categoryId: categoryFound.id
             },
             include:{
                 category: true
             }
+
         });
         
         return allTasks
