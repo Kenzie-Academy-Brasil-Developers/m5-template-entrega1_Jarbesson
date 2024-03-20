@@ -1,6 +1,7 @@
 import "reflect-metadata"
 import "express-async-errors"
 import express, { json } from "express";
+import cors from "cors";
 import helmet from "helmet";
 import { taskRouter } from "./routes/task.routes";
 import { categoryRouter } from "./routes/category.routes";
@@ -26,6 +27,3 @@ app.use("/users/login", sessionRouter);
 
 app.use(HandleErrors.execute);
 
-function cors(): any {
-    throw new Error("Function not implemented.");
-}
