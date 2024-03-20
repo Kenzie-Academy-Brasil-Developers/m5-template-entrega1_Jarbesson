@@ -12,6 +12,8 @@ export const app = express();
 
 app.use(helmet());
 
+app.use(cors())
+
 app.use(json());
 
 app.use("/tasks", taskRouter);
@@ -23,3 +25,7 @@ app.use("/users", userRouter);
 app.use("/users/login", sessionRouter);
 
 app.use(HandleErrors.execute);
+
+function cors(): any {
+    throw new Error("Function not implemented.");
+}
