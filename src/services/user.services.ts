@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import { UserCreate, UserReturn } from "../interfaces/user.interface";
 import { useReturnShema } from "../schemas/user.schema";
 import { prisma } from "../database/prisma";
