@@ -17,3 +17,4 @@ taskRouter.get("/",auth.isAuthenticated,taskControllers.findMany);
 taskRouter.get("/:id",auth.isAuthenticated,ValidateIdMiddleware.task,ValidateTaskUser.isTaskOwner, taskControllers.findOne);
 taskRouter.patch("/:id",auth.isAuthenticated,ValidateIdMiddleware.task,ValidateTaskUser.isTaskOwner,validateBody.execute(taskUpdateShema),taskControllers.update);
 taskRouter.delete("/:id",auth.isAuthenticated,ValidateIdMiddleware.task,ValidateTaskUser.isTaskOwner, taskControllers.delete);
+
