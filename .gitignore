@@ -2,4 +2,8 @@ node_modules
 .env
 .env.test
 .env.develop
+<<<<<<< HEAD
 .dist
+=======
+dist
+>>>>>>> refs/remotes/origin/main
